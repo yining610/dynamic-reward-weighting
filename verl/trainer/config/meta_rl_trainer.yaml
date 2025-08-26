@@ -1,0 +1,110 @@
+data:
+  train_files: ~/data/rlhf/gsm8k/train.parquet
+  val_files: ~/data/rlhf/gsm8k/test.parquet
+  prompt_key: prompt
+  reward_fn_key: data_source
+  train_batch_size: 1024
+  n_samples: 1  # number of samples for each time step in the episode
+
+model:
+  path: ~/models/Qwen2-7B-Instruct
+  external_lib: null
+
+trainer:
+  train_strategy: "meta"
+  nnodes: 1
+  n_gpus_per_node: 8
+  device: cuda
+  total_epochs: 30
+  project_name: verl_examples
+  experiment_name: gsm8k
+  logger: [ 'console', 'wandb' ]
+  resume_mode: auto # or disable or resume_path if resume_from_path is set
+  resume_from_path: null
+  del_local_ckpt_after_load: False
+  default_local_dir: checkpoints/${trainer.project_name}/${trainer.experiment_name}
+  save_freq: -1
+
+meta_rl:
+  episode_length: 100 # number of time steps in each meta-rl episode
+  ppo_mini_batch_size: 256
+  grad_clip: 1.0
+  # pg_losses2 = -advantages * torch.clamp(ratio, 1 - cliprange_low, 1 + cliprange_high)
+  clip_ratio: 0.2 # default value if clip_ratio_low and clip_ratio_high are not specified
+  clip_ratio_low: null
+  clip_ratio_high: null
+  clip_ratio_c: 3.0 # lower bound of the value for Dual-clip PPO from https://arxiv.org/pdf/1912.09729
+  cliprange_value: 0.5
+  entropy_coeff: 0
+  vf_coef: 0.5
+  ppo_epochs: 1
+  shuffle: False
+  optim:
+    lr: 1e-6
+    lr_warmup_steps: -1 # Prioritized. Negative values mean delegating to lr_warmup_steps_ratio.
+    lr_warmup_steps_ratio: 0.  # the total steps will be injected during runtime
+    min_lr_ratio: 0.0   # only used with cosine lr scheduler, default to 0.0
+    num_cycles: 0.5     # only used with cosine lr scheduler, default to 0.5
+    warmup_style: constant  # select from constant/cosine/exponential/polynomial
+    weight_decay: 0.01
+  reward:
+    scale: True
+  advantages:
+    use_whiten: True
+  depth: 2
+  input_size: 3
+  hidden_size: 2048
+  gamma: 0.99
+  lam: 0.95
+
+rollout:
+  name: vllm
+  mode: sync
+  temperature: 1.0
+  top_k: -1 # 0 for hf rollout, -1 for vllm rollout
+  top_p: 1
+  prompt_length: 1536
+  response_length: 512
+  # for vllm rollout
+  dtype: bfloat16 # should align with FSDP
+  gpu_memory_utilization: 0.5
+  ignore_eos: False
+  enforce_eager: True
+  free_cache_engine: True
+  load_format: dummy_dtensor
+  tensor_model_parallel_size: 1
+  max_num_batched_tokens: 8192
+  max_model_len: null
+  max_num_seqs: 1024
+  log_prob_micro_batch_size: null # will be deprecated, use log_prob_micro_batch_size_per_gpu
+  log_prob_micro_batch_size_per_gpu: 8
+  # for fire vllm rollout
+  use_fire_sampling: False # enable FIRE https://arxiv.org/abs/2410.21236
+  # for hf rollout
+  do_sample: True
+  disable_log_stats: True
+  enable_chunked_prefill: True
+  n: 1 # number of samples for each episode
+  val_kwargs:
+    top_k: -1 # 0 for hf rollout, -1 for vllm rollout
+    top_p: 1.0
+    temperature: 1.0
+    n: 1
+    do_sample: True
+actor:
+  strategy: fsdp  # This is for backward-compatibility
+  ulysses_sequence_parallel_size: 1 # sp size
+  fsdp_config:
+    fsdp_size: -1
+
+reward_model:
+  reward_manager: naive
+
+custom_reward_function:
+  path: null
+  name: compute_score
+  weights: null # initial weight for training the meta policy
+  maximize: [True, False, True]
+
+ray_init:
+  num_cpus: null # `None` means using all CPUs, which might cause hang if limited in systems like SLURM. Please set to a number allowed then.

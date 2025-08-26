@@ -1,0 +1,2 @@
+#!/bin/bash
+EXPERIMENT_NAME="qwen3-8b-math500-acc-concise-format-333-optimization-noclip-poly-lr1e-6-reg1e-5" WEIGHTS="[0.334,0.333,0.333]" WARMUP_STYLE="polynomial" bash examples/reinforce_trainer/run_qwen3-8b_multiobjective_optimization.sh
