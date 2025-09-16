@@ -1,9 +1,9 @@
-The is the repository documenting experiments for the paper: [**Learning to Optimize Multi-objective Alignment Through Dynamic Reward Weighting**](https://arxiv.org/abs/2509.11452).
+This is the repository documenting experiments for the paper: [**Learning to Optimize Multi-objective Alignment Through Dynamic Reward Weighting**](https://arxiv.org/abs/2509.11452).
 
 ## Folder Structure
 ```
 steps/       // callable scripts for data preprocessing
-verl/        // source code of models, algorithms, data strcutures, metrics, etc. 
+verl/        // source code of models, algorithms, data structures, metrics, etc. 
 examples/    // bash scripts to run jobs
 data/        // pre-processed data used in experiments
 ```
@@ -11,7 +11,7 @@ data/        // pre-processed data used in experiments
 ## Environment 
 We use the `Dockerfile` to build the environment. For more setup instructions, see the [verl environment setup guide](https://verl.readthedocs.io/en/latest/start/install.html)
 
-We use wandb to log experiments and please log in before running them.
+We use Wandb to log experiments, so please log in before running them.
 
 ## Experiment
 We provide all the bash scripts used in our experiments in the `examples/` directory.
@@ -39,12 +39,12 @@ bash examples/grpo_trainer/run_batch_optimization.sh
 ```
 
 ### Preliminary experiments:
-We provide scripts to replicate the preliminary findings shown in Appendix A.2 of the paper
+We provide scripts to replicate the preliminary findings shown in Appendix A.2 in the paper
 ```
 bash examples/preliminary_experiment/model_merge.sh
 bash examples/preliminary_experiment/run_main_generation_dual.sh
 ```
-Note that we need to merge the saved checkpoitns from FSDP and Megatron backends to huggingface models first.
+Note that we need to merge the saved checkpoints from FSDP and Megatron backends to HuggingFace models first.
 
 ### Result Analysis
 We also provide analysis code in `analysis_fns.py` for analyzing and visualizing results, with examples in `analysis.ipynb`.
