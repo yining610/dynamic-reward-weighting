@@ -66,5 +66,13 @@ verl/workers/fsdp_workers.py
 ## Citation
 If you use our code, please cite the following paper:
 ```
-
+@misc{lu2025learningoptimizemultiobjectivealignment,
+      title={Learning to Optimize Multi-Objective Alignment Through Dynamic Reward Weighting}, 
+      author={Yining Lu and Zilong Wang and Shiyang Li and Xin Liu and Changlong Yu and Qingyu Yin and Zhan Shi and Zixuan Zhang and Meng Jiang},
+      year={2025},
+      eprint={2509.11452},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2509.11452}, 
+}
 ```
