@@ -1,4 +1,4 @@
-The is the repository documenting experiments for the paper: **Learning to Optimize Multi-objective Alignment Through Dynamic Reward Weighting**.
+The is the repository documenting experiments for the paper: [**Learning to Optimize Multi-objective Alignment Through Dynamic Reward Weighting**](https://arxiv.org/abs/2509.11452).
 
 ## Folder Structure
 ```
