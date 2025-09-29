@@ -1,6 +1,18 @@
-This is the repository documenting experiments for the paper: [**Learning to Optimize Multi-objective Alignment Through Dynamic Reward Weighting**](https://arxiv.org/abs/2509.11452).
+# Learning to Optimize Multi-Objective Alignment Through Dynamic Reward Weighting
 
-## Folder Structure
+<p align="center">
+  <img src="https://img.shields.io/github/stars/yining610/dynamic-reward-weighting?style=social"/>
+  <img src="https://img.shields.io/github/forks/yining610/dynamic-reward-weighting?style=social"/>
+  <img src="https://img.shields.io/github/license/yining610/dynamic-reward-weighting?style=flat&v=2"/>
+</p>
+
+<p align="center">
+  <b>Dynamic multi-objective reward weighting methods compatible with various online reinforcement learning algorithms, datasets, and model families</b><br>
+  <a href="https://arxiv.org/abs/2509.11452"><b>Paper on arXiv</b></a>
+</p>
+
+---
+## 📖 Folder Structure
 ```
 steps/       // callable scripts for data preprocessing
 verl/        // source code of models, algorithms, data structures, metrics, etc. 
@@ -8,12 +20,12 @@ examples/    // bash scripts to run jobs
 data/        // pre-processed data used in experiments
 ```
 
-## Environment 
+## ⚙️ Environment 
 We use the `Dockerfile` to build the environment. For more setup instructions, see the [verl environment setup guide](https://verl.readthedocs.io/en/latest/start/install.html)
 
 We use Wandb to log experiments, so please log in before running them.
 
-## Experiment
+## 🚀 Experiment
 We provide all the bash scripts used in our experiments in the `examples/` directory.
 
 ### Hypervolume-Guided Weight Adaptation
@@ -63,7 +75,7 @@ verl/workers/reward_manager/multi_objective_optimization.py
 verl/workers/fsdp_workers.py
 ```
 
-## Citation
+## 📚 Citation
 If you use our code, please cite the following paper:
 ```
 @misc{lu2025learningoptimizemultiobjectivealignment,
